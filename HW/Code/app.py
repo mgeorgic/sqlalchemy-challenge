@@ -33,17 +33,19 @@ def home():
         f"Welcome to the Climate App API.<br>"
         f"Here are the available routes:<br/>"
         f"<br/>"  
-        f"Precipitation data:<br/>"
+        f"Precipitation Analysis:<br/>"
         f"/api/v1.0/precipitation<br/>"
         f"<br/>"
-        f"Stations:<br/>"
+        f"Station Analysis:<br/>"
         f"/api/v1.0/stations<br/>"
         f"<br/>"
-        f"Temperture observations:<br/>"
+        f"Temperture Analysis:<br/>"
         f"/api/v1.0/tobs<br/>"
         f"<br/>"
+        f"Start Temperture Analysis:<br/>"
         f"/api/v1.0/start<br/>"
         f"<br/>"
+        f"Start and End Temperture Analysis:<br/>"
         f"/api/v1.0/start/end<br/>"
         f"<br/>"
     )
@@ -53,11 +55,17 @@ def home():
 @app.route("/api/v1.0/precipitation")
 def precipitation():
     """Retrieve the last 12 months of precipitation data and return the results."""
-    # Create the session link
-    session = Session(engine)
-    
-    # Query for the date and precipitation for the last year
-    precipitation = session.query(MS, MS.prcp).\
-        filter(MS.date >= date).all()
+    year_date = dt.date(2017,8,23) - dt.timedelta(days=365)
+    prcp_data = session.query(MS.date, MS.prcp).\
+        filter(MS.date >= year_date).\
+        order_by(MS.date).all()
+    prcp_dict = dict(prcp_data)
+    return jsonify(prcp_dict)
 
-python app.py
+# create station route
+@app.route("/api/v1.0/stations")
+def stations():
+        station_total = session.query(ST.station).all()
+        station_list = list(station_total)
+        stations = list(np.ravel(station_list))
+        return jsonify(stations=stations)
