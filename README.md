@@ -6,6 +6,7 @@ Climate Analysis and Exploration
 Using Python, SQLAlchemy, Pandas and Matplotlib
 
 Techniques Demonstrated:
+
 •	Web Site Modeling: used several url’s for user 
 •	Data Engineering: used SQLAlchemy ORM queries to show results in webpage url routes
 •	Data Analysis: used Pandas and Matplotlib on SQLite Hawaii Weather database
