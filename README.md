@@ -1,6 +1,5 @@
-# sqlalchemy-challenge
 
-SQLAlchemy Challenge
+SQLAlchemy Challenge- DU Data Analytics Homework
 
 Climate Analysis and Exploration using Python, SQLAlchemy, Pandas and Matplotlib
 
