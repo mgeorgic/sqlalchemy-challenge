@@ -8,7 +8,7 @@ from sqlalchemy import create_engine, func
 from flask import Flask, jsonify
 
 # Database Setup
-engine = create_engine("sqlite:///hawaii.sqlite")
+engine = create_engine("sqlite:///Resources/hawaii.sqlite")
 
 # Reflect an existing database and tables
 Base = automap_base()
@@ -128,17 +128,18 @@ def start (start=None, end=None):
     session = Session(engine)
 
     # Convert start and end dates to yyyy-mm-dd format for the query
-    start_dt = dt.datetime.strptime(start, '%Y-%m-%d')
-    end_dt = dt.datetime.strptime(end, '%Y-%m-%d')
+    # start_dt = dt.datetime.strptime(start, '%Y-%m-%d')
+    # end_dt = dt.datetime.strptime(end, '%Y-%m-%d')
     
     if not end:
         results = session.query(MS.date, func.min(MS.tobs), func.avg(MS.tobs),
-        func.max(MS.tobs)).filter(MS.date >= start_dt).all()
-        session.close()
+        func.max(MS.tobs)).filter(MS.date >= start).group_by(MS.date).all()
+        
     if end:
         results = session.query(MS.date, func.min(MS.tobs), func.avg(MS.tobs),
-        func.max(MS.tobs)).filter(MS.date <= end_dt).filter(MS.date >= start_dt).group_by(MS.date).all()
+        func.max(MS.tobs)).filter(MS.date <= end).filter(MS.date >= start).group_by(MS.date).all()
     
+    session.close()
     # Create a list to hold results
     temp_list = []
     for result in results:
